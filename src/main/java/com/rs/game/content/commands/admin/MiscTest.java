@@ -33,6 +33,7 @@ import com.rs.game.content.bosses.qbd.QueenBlackDragonController;
 import com.rs.game.content.combat.CombatDefinitions.Spellbook;
 import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.content.dnds.shootingstar.ShootingStars;
+import com.rs.game.content.leagues.LeaguesTask;
 import com.rs.game.content.minigames.barrows.BarrowsController;
 import com.rs.game.content.pets.Pet;
 import com.rs.game.content.randomevents.RandomEvents;
@@ -89,6 +90,7 @@ import com.rs.utils.spawns.NPCSpawns;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 @PluginEventHandler
@@ -112,6 +114,32 @@ public class MiscTest {
 		//		Commands.add(Rights.ADMIN, "command [args]", "Desc", (p, args) -> {
 		//
 		//		});
+
+		Commands.add(Rights.DEVELOPER, "cluescroll [level, num]", "Opens [num] clue scrolls of level [level]", (p, args) -> {
+			int level = Integer.parseInt(args[0]);
+			int num = args.length > 1 ? Integer.parseInt(args[1]) : 1;
+			for(int i = 0; i < num; i++)
+				p.getTreasureTrailsManager().openReward(level);
+		});
+
+		Commands.add(Rights.DEVELOPER, "addxp [skill, xp]", "Adds xp to a skill", (p, args) -> {
+			int skill = Integer.parseInt(args[0]);
+			int xp = Integer.parseInt(args[1]);
+			p.getSkills().addXp(skill, xp);
+			p.sendMessage("Added "+xp+" xp to "+Skills.SKILL_NAME[skill]);
+		});
+
+		Commands.add(Rights.DEVELOPER, "tasks", "Lists tasks", (p, args) -> {
+			for(LeaguesTask task : p.getLeaguesManager().getTasks().keySet()) {
+				p.sendMessage(task.name() + ": " + p.getLeaguesManager().getTasks().get(task));
+			}
+			p.sendMessage(p.getLeaguesManager().getTasksCompleted()+" - "+p.getLeaguesManager().getPoints());
+		});
+
+		Commands.add(Rights.DEVELOPER, "resettasks", "Resets tasks", (p, args) -> {
+			p.getLeaguesManager().reset();
+		});
+
 		Commands.add(Rights.DEVELOPER, "reloadplugins", "legit test meme", (p, args) -> {
 			try {
 				PluginScriptHost.Companion.loadAndExecuteScripts();

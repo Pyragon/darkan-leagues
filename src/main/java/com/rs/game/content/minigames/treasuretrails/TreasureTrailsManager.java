@@ -20,6 +20,7 @@ import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.game.World;
+import com.rs.game.content.leagues.LeaguesTask;
 import com.rs.game.content.world.areas.wilderness.WildernessController;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
@@ -504,7 +505,31 @@ public class TreasureTrailsManager {
 		if (banked)
 			player.sendMessage("As you had no space in your inventory, the items were sent to your bank.", true);
 		player.getPackets().sendItems(141, rewards);
+		LeaguesTask base = OPEN_SCROLLS[level];
+		if(!player.getLeaguesManager().getTask(base))
+			player.getLeaguesManager().completeTask(base);
+		Object[][] multiple = OPEN_SCROLLS_MULTIPLE[level];
+		for(Object[] multi : multiple) {
+			LeaguesTask task = (LeaguesTask) multi[0];
+			int required = (int) multi[1];
+			int done = player.getCount(LEVEL[level] + " clues completed");
+			if(done >= required && !player.getLeaguesManager().getTask(task))
+				player.getLeaguesManager().completeTask(task);
+		}
 	}
+
+	public static Object[][][] OPEN_SCROLLS_MULTIPLE = {
+			{
+					{ LeaguesTask.OPEN_25_EASY_CLUE, 25 }
+			}
+	};
+
+	public static LeaguesTask[] OPEN_SCROLLS = {
+		LeaguesTask.OPEN_EASY_CLUE,
+		LeaguesTask.OPEN_MEDIUM_CLUE,
+		LeaguesTask.OPEN_HARD_CLUE,
+		LeaguesTask.OPEN_ELITE_CLUE
+	};
 
 	public boolean hasSextantItems() {
 		return player.getInventory().containsItem(2575, 1) && player.getInventory().containsItem(2576, 1) && player.getInventory().containsItem(2574, 1);

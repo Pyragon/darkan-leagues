@@ -343,6 +343,7 @@ public class Player extends Entity {
 	private QuestManager questManager;
 	private MiniquestManager miniquestManager;
 	private TreasureTrailsManager treasureTrailsManager;
+	private LeaguesManager leaguesManager;
 	private Map<Integer, Offer> geOffers = new HashMap<>();
 
 	public int reaperPoints;
@@ -596,6 +597,7 @@ public class Player extends Entity {
 		ipList = new HashSet<>();
 		machineMap = new HashMap<>();
 		creationDate = System.currentTimeMillis();
+		leaguesManager = new LeaguesManager();
 		resetLodestones();
 	}
 
@@ -659,6 +661,7 @@ public class Player extends Entity {
 		dominionTower.setPlayer(this);
 		auraManager.setPlayer(this);
 		petManager.setPlayer(this);
+		leaguesManager.setPlayer(this);
 		setFaceAngle(Utils.getAngleTo(0, -1));
 		tempMoveType = null;
 		initEntity();
@@ -1531,6 +1534,12 @@ public class Player extends Entity {
 		if (variousCounter == null)
 			variousCounter = new ConcurrentHashMap<>();
 		variousCounter.put(string, variousCounter.getOrDefault(string, 0) + count);
+	}
+
+	public int getCount(String string) {
+		if (variousCounter == null)
+			variousCounter = new ConcurrentHashMap<>();
+		return variousCounter.getOrDefault(string, 0);
 	}
 
 	public int getNumberKilled(String npcName) {
@@ -2851,6 +2860,10 @@ public class Player extends Entity {
 		if (getTemporaryMoveType() != null)
 			return getTemporaryMoveType();
 		return moveType;
+	}
+
+	public LeaguesManager getLeaguesManager() {
+		return leaguesManager;
 	}
 
 	public void setDisableEquip(boolean equip) {

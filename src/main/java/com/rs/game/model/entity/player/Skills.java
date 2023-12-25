@@ -20,10 +20,12 @@ import com.rs.Settings;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.content.Skillcapes;
+import com.rs.game.content.leagues.LeaguesTask;
 import com.rs.game.content.randomevents.RandomEvents;
 import com.rs.game.content.world.areas.wilderness.WildernessController;
 import com.rs.game.model.entity.player.managers.AuraManager.Aura;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
+import com.rs.game.model.entity.player.managers.LeaguesManager;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
@@ -705,6 +707,15 @@ public final class Skills {
 		return 0;
 	}
 
+	public int getBaseLevel() {
+		int base = 120;
+		for(int i = 0; i < level.length; i++) {
+			if(getLevelForXp(i) < base)
+				base = getLevelForXp(i);
+		}
+		return base;
+	}
+
 	public int getLevelForXp(int skill) {
 		double exp = Math.floor(xp[skill]);
 		int points = 0;
@@ -921,6 +932,111 @@ public final class Skills {
 
 	}
 
+	public void checkLeagueTaskOnXpGain(int skill, double newXp, int oldLevel, int newLevel, int newTotal, int baseLevel, int newCombat) {
+		if(oldLevel != newLevel && !player.getLeaguesManager().getTask(LeaguesTask.FIRST_LEVEL_UP))
+			player.getLeaguesManager().completeTask(LeaguesTask.FIRST_LEVEL_UP);
+		if(newLevel >= 5 && !player.getLeaguesManager().getTask(LeaguesTask.ACHIEVE_FIRST_LEVEL_5))
+			player.getLeaguesManager().completeTask(LeaguesTask.ACHIEVE_FIRST_LEVEL_5);
+		if(newLevel >= 10 && !player.getLeaguesManager().getTask(LeaguesTask.ACHIEVE_FIRST_LEVEL_10))
+			player.getLeaguesManager().completeTask(LeaguesTask.ACHIEVE_FIRST_LEVEL_10);
+		if(newLevel >= 20 && !player.getLeaguesManager().getTask(LeaguesTask.ACHIEVE_FIRST_LEVEL_20))
+			player.getLeaguesManager().completeTask(LeaguesTask.ACHIEVE_FIRST_LEVEL_20);
+		if(newLevel >= 30 && !player.getLeaguesManager().getTask(LeaguesTask.ACHIEVE_FIRST_LEVEL_30))
+			player.getLeaguesManager().completeTask(LeaguesTask.ACHIEVE_FIRST_LEVEL_30);
+		if(newLevel >= 40 && !player.getLeaguesManager().getTask(LeaguesTask.ACHIEVE_FIRST_LEVEL_40))
+			player.getLeaguesManager().completeTask(LeaguesTask.ACHIEVE_FIRST_LEVEL_40);
+		if(newLevel >= 50 && !player.getLeaguesManager().getTask(LeaguesTask.ACHIEVE_FIRST_LEVEL_50))
+			player.getLeaguesManager().completeTask(LeaguesTask.ACHIEVE_FIRST_LEVEL_50);
+		if(newLevel >= 60 && !player.getLeaguesManager().getTask(LeaguesTask.ACHIEVE_FIRST_LEVEL_60))
+			player.getLeaguesManager().completeTask(LeaguesTask.ACHIEVE_FIRST_LEVEL_60);
+		if(newLevel >= 70 && !player.getLeaguesManager().getTask(LeaguesTask.ACHIEVE_FIRST_LEVEL_70))
+			player.getLeaguesManager().completeTask(LeaguesTask.ACHIEVE_FIRST_LEVEL_70);
+		if(newLevel >= 80 && !player.getLeaguesManager().getTask(LeaguesTask.ACHIEVE_FIRST_LEVEL_80))
+			player.getLeaguesManager().completeTask(LeaguesTask.ACHIEVE_FIRST_LEVEL_80);
+		if(newLevel >= 90 && !player.getLeaguesManager().getTask(LeaguesTask.ACHIEVE_FIRST_LEVEL_90))
+			player.getLeaguesManager().completeTask(LeaguesTask.ACHIEVE_FIRST_LEVEL_90);
+		if(newLevel >= 95 && !player.getLeaguesManager().getTask(LeaguesTask.ACHIEVE_FIRST_LEVEL_95))
+			player.getLeaguesManager().completeTask(LeaguesTask.ACHIEVE_FIRST_LEVEL_95);
+		if(newLevel >= 99) {
+			LeaguesTask task = LeaguesManager.REACH_99_SKILLS[skill];
+			if(task != null && !player.getLeaguesManager().getTask(task))
+				player.getLeaguesManager().completeTask(task);
+		}
+		if(newLevel >= 120 && !player.getLeaguesManager().getTask(LeaguesTask.REACH_120_DUNGEONEERING))
+			player.getLeaguesManager().completeTask(LeaguesTask.REACH_120_DUNGEONEERING);
+
+		if(newTotal >= 100 && !player.getLeaguesManager().getTask(LeaguesTask.REACH_TOTAL_LEVEL_100))
+			player.getLeaguesManager().completeTask(LeaguesTask.REACH_TOTAL_LEVEL_100);
+		if(newTotal >= 200 && !player.getLeaguesManager().getTask(LeaguesTask.REACH_TOTAL_LEVEL_200))
+			player.getLeaguesManager().completeTask(LeaguesTask.REACH_TOTAL_LEVEL_200);
+		if(newTotal >= 500 && !player.getLeaguesManager().getTask(LeaguesTask.REACH_TOTAL_LEVEL_500))
+			player.getLeaguesManager().completeTask(LeaguesTask.REACH_TOTAL_LEVEL_500);
+		if(newTotal >= 750 && !player.getLeaguesManager().getTask(LeaguesTask.REACH_TOTAL_LEVEL_750))
+			player.getLeaguesManager().completeTask(LeaguesTask.REACH_TOTAL_LEVEL_750);
+		if(newTotal >= 1000 && !player.getLeaguesManager().getTask(LeaguesTask.REACH_TOTAL_LEVEL_1000))
+			player.getLeaguesManager().completeTask(LeaguesTask.REACH_TOTAL_LEVEL_1000);
+		if(newTotal >= 1250 && !player.getLeaguesManager().getTask(LeaguesTask.REACH_TOTAL_LEVEL_1250))
+			player.getLeaguesManager().completeTask(LeaguesTask.REACH_TOTAL_LEVEL_1250);
+		if(newTotal >= 1500 && !player.getLeaguesManager().getTask(LeaguesTask.REACH_TOTAL_LEVEL_1500))
+			player.getLeaguesManager().completeTask(LeaguesTask.REACH_TOTAL_LEVEL_1500);
+		if(newTotal >= 1750 && !player.getLeaguesManager().getTask(LeaguesTask.REACH_TOTAL_LEVEL_1750))
+			player.getLeaguesManager().completeTask(LeaguesTask.REACH_TOTAL_LEVEL_1750);
+		if(newTotal >= 2000 && !player.getLeaguesManager().getTask(LeaguesTask.REACH_TOTAL_LEVEL_2000))
+			player.getLeaguesManager().completeTask(LeaguesTask.REACH_TOTAL_LEVEL_2000);
+		if(newTotal >= 2100 && !player.getLeaguesManager().getTask(LeaguesTask.REACH_TOTAL_LEVEL_2100))
+			player.getLeaguesManager().completeTask(LeaguesTask.REACH_TOTAL_LEVEL_2100);
+		if(newTotal >= 2200 && !player.getLeaguesManager().getTask(LeaguesTask.REACH_TOTAL_LEVEL_2200))
+			player.getLeaguesManager().completeTask(LeaguesTask.REACH_TOTAL_LEVEL_2200);
+		if(newTotal >= 2300 && !player.getLeaguesManager().getTask(LeaguesTask.REACH_TOTAL_LEVEL_2300))
+			player.getLeaguesManager().completeTask(LeaguesTask.REACH_TOTAL_LEVEL_2300);
+		if(newTotal >= 2400 && !player.getLeaguesManager().getTask(LeaguesTask.REACH_TOTAL_LEVEL_2400))
+			player.getLeaguesManager().completeTask(LeaguesTask.REACH_TOTAL_LEVEL_2400);
+		if(newTotal >= 2496 && !player.getLeaguesManager().getTask(LeaguesTask.REACH_TOTAL_LEVEL_2496))
+			player.getLeaguesManager().completeTask(LeaguesTask.REACH_TOTAL_LEVEL_2496);
+
+		if(newCombat >= 10 && !player.getLeaguesManager().getTask(LeaguesTask.REACH_COMBAT_LEVEL_10))
+			player.getLeaguesManager().completeTask(LeaguesTask.REACH_COMBAT_LEVEL_10);
+		if(newCombat >= 25 && !player.getLeaguesManager().getTask(LeaguesTask.REACH_COMBAT_LEVEL_25))
+			player.getLeaguesManager().completeTask(LeaguesTask.REACH_COMBAT_LEVEL_25);
+		if(newCombat >= 50 && !player.getLeaguesManager().getTask(LeaguesTask.REACH_COMBAT_LEVEL_50))
+			player.getLeaguesManager().completeTask(LeaguesTask.REACH_COMBAT_LEVEL_50);
+		if(newCombat >= 75 && !player.getLeaguesManager().getTask(LeaguesTask.REACH_COMBAT_LEVEL_75))
+			player.getLeaguesManager().completeTask(LeaguesTask.REACH_COMBAT_LEVEL_75);
+		if(newCombat >= 100 && !player.getLeaguesManager().getTask(LeaguesTask.REACH_COMBAT_LEVEL_100))
+			player.getLeaguesManager().completeTask(LeaguesTask.REACH_COMBAT_LEVEL_100);
+		if(newCombat >= 110 && !player.getLeaguesManager().getTask(LeaguesTask.REACH_COMBAT_LEVEL_110))
+			player.getLeaguesManager().completeTask(LeaguesTask.REACH_COMBAT_LEVEL_110);
+		if(newCombat >= 120 && !player.getLeaguesManager().getTask(LeaguesTask.REACH_COMBAT_LEVEL_120))
+			player.getLeaguesManager().completeTask(LeaguesTask.REACH_COMBAT_LEVEL_120);
+		if(newCombat >= 126 && !player.getLeaguesManager().getTask(LeaguesTask.REACH_COMBAT_LEVEL_126))
+			player.getLeaguesManager().completeTask(LeaguesTask.REACH_COMBAT_LEVEL_126);
+		if(newCombat >= 138 && !player.getLeaguesManager().getTask(LeaguesTask.REACH_COMBAT_LEVEL_138))
+			player.getLeaguesManager().completeTask(LeaguesTask.REACH_COMBAT_LEVEL_138);
+
+		if(baseLevel >= 5 && !player.getLeaguesManager().getTask(LeaguesTask.REACH_BASE_LEVEL_5))
+			player.getLeaguesManager().completeTask(LeaguesTask.REACH_BASE_LEVEL_5);
+		if(baseLevel >= 10 && !player.getLeaguesManager().getTask(LeaguesTask.REACH_BASE_LEVEL_10))
+			player.getLeaguesManager().completeTask(LeaguesTask.REACH_BASE_LEVEL_10);
+		if(baseLevel >= 20 && !player.getLeaguesManager().getTask(LeaguesTask.REACH_BASE_LEVEL_20))
+			player.getLeaguesManager().completeTask(LeaguesTask.REACH_BASE_LEVEL_20);
+		if(baseLevel >= 30 && !player.getLeaguesManager().getTask(LeaguesTask.REACH_BASE_LEVEL_30))
+			player.getLeaguesManager().completeTask(LeaguesTask.REACH_BASE_LEVEL_30);
+		if(baseLevel >= 40 && !player.getLeaguesManager().getTask(LeaguesTask.REACH_BASE_LEVEL_40))
+			player.getLeaguesManager().completeTask(LeaguesTask.REACH_BASE_LEVEL_40);
+		if(baseLevel >= 50 && !player.getLeaguesManager().getTask(LeaguesTask.REACH_BASE_LEVEL_50))
+			player.getLeaguesManager().completeTask(LeaguesTask.REACH_BASE_LEVEL_50);
+		if(baseLevel >= 60 && !player.getLeaguesManager().getTask(LeaguesTask.REACH_BASE_LEVEL_60))
+			player.getLeaguesManager().completeTask(LeaguesTask.REACH_BASE_LEVEL_60);
+		if(baseLevel >= 70 && !player.getLeaguesManager().getTask(LeaguesTask.REACH_BASE_LEVEL_70))
+			player.getLeaguesManager().completeTask(LeaguesTask.REACH_BASE_LEVEL_70);
+		if(baseLevel >= 80 && !player.getLeaguesManager().getTask(LeaguesTask.REACH_BASE_LEVEL_80))
+			player.getLeaguesManager().completeTask(LeaguesTask.REACH_BASE_LEVEL_80);
+		if(baseLevel >= 90 && !player.getLeaguesManager().getTask(LeaguesTask.REACH_BASE_LEVEL_90))
+			player.getLeaguesManager().completeTask(LeaguesTask.REACH_BASE_LEVEL_90);
+		if(baseLevel >= 95 && !player.getLeaguesManager().getTask(LeaguesTask.REACH_BASE_LEVEL_95))
+			player.getLeaguesManager().completeTask(LeaguesTask.REACH_BASE_LEVEL_95);
+	}
+
 	public double addXpLamp(int skill, double exp) {
 		player.getControllerManager().trackXP(skill, (int) exp);
 
@@ -934,6 +1050,9 @@ public final class Skills {
 
 		xp[skill] += exp;
 		int newLevel = getLevelForXp(skill);
+		int newTotal = getTotalLevel();
+		int newCombat = getCombatLevelWithSummoning();
+		int baseLevel = getBaseLevel();
 		double newXp = xp[skill];
 		for (int i = 0; i < trackSkills.length; i++)
 			if (trackSkills[i])
@@ -952,7 +1071,7 @@ public final class Skills {
 		}
 		if (oldXp <= 104273166 && newXp > 104273166)
 			World.sendWorldMessage("<img=5><col=FF0000>" + player.getDisplayName() + " has achieved the equivalent of 120 " + Constants.SKILL_NAME[skill] + "!", false);
-
+		checkLeagueTaskOnXpGain(skill, newXp, oldLevel, newLevel, newTotal, baseLevel, newCombat);
 		int levelDiff = newLevel - oldLevel;
 		if (newLevel > oldLevel) {
 			level[skill] += levelDiff;
@@ -984,11 +1103,15 @@ public final class Skills {
 			exp *= Settings.getConfig().getXpRate();
 
 		int oldLevel = getLevelForXp(skill);
+		int oldTotal = getTotalLevel();
 		double oldXp = xp[skill];
 		if (!player.getControllerManager().gainXP(skill, exp))
 			return;
 		xp[skill] += exp;
 		int newLevel = getLevelForXp(skill);
+		int newTotal = getTotalLevel();
+		int baseLevel = getBaseLevel();
+		int newCombat = getCombatLevelWithSummoning();
 		double newXp = xp[skill];
 		for (int i = 0; i < trackSkills.length; i++)
 			if (trackSkills[i])
@@ -1007,7 +1130,7 @@ public final class Skills {
 		}
 		if (oldXp <= 104273166 && newXp > 104273166)
 			World.sendWorldMessage("<img=5><col=FF0000>" + player.getDisplayName() + " has achieved the equivalent of 120 " + Constants.SKILL_NAME[skill] + "!", false);
-
+		checkLeagueTaskOnXpGain(skill, newXp, oldLevel, newLevel, newTotal, baseLevel, newCombat);
 		int levelDiff = newLevel - oldLevel;
 		if (newLevel > oldLevel) {
 			level[skill] += levelDiff;
@@ -1066,12 +1189,16 @@ public final class Skills {
 		if (!player.getControllerManager().gainXP(skill, exp))
 			return;
 		int oldLevel = getLevelForXp(skill);
+		int oldTotal = getTotalLevel();
 		double oldXp = xp[skill];
 		if ((skill == HITPOINTS || skill == MAGIC) && (player.getInventory().containsItem(12850, 1) || player.getInventory().containsItem(12851, 1)))
 			; //do not add any XP if they are using minigame runes
 		else
 			xp[skill] += exp;
 		int newLevel = getLevelForXp(skill);
+		int newTotal = getTotalLevel();
+		int baseLevel = getBaseLevel();
+		int newCombat = getCombatLevelWithSummoning();
 		double newXp = xp[skill];
 		for (int i = 0; i < trackSkills.length; i++)
 			if (trackSkills[i])
@@ -1090,6 +1217,7 @@ public final class Skills {
 		}
 		if (oldXp <= 104273166 && newXp > 104273166)
 			World.sendWorldMessage("<img=5><col=FF0000>" + player.getDisplayName() + " has achieved the equivalent of 120 " + Constants.SKILL_NAME[skill] + "!", false);
+		checkLeagueTaskOnXpGain(skill, newXp, oldLevel, newLevel, newTotal, baseLevel, newCombat);
 		int levelDiff = newLevel - oldLevel;
 		if (newLevel > oldLevel) {
 			level[skill] += levelDiff;
