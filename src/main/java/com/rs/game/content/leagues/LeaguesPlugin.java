@@ -211,7 +211,7 @@ public class LeaguesPlugin {
             case GemCutting gem -> {
                 if(gem.getGem() == GemCutting.Gem.SAPPHIRE && !player.getLeaguesManager().getTask(LeaguesTask.CUT_SAPPHIRE))
                     player.getLeaguesManager().completeTask(LeaguesTask.CUT_SAPPHIRE);
-                if(gem.getGem() == GemCutting.Gem.RED_TOPAZ)
+                if(gem.getGem() == GemCutting.Gem.RED_TOPAZ && !player.getLeaguesManager().getTask(LeaguesTask.CUT_RED_TOPAZ))
                     player.getLeaguesManager().completeTask(LeaguesTask.CUT_RED_TOPAZ);
             }
             case Fletching fletching -> {
