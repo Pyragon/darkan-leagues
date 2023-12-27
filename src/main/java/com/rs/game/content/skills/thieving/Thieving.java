@@ -18,6 +18,7 @@ package com.rs.game.content.skills.thieving;
 
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
+import com.rs.game.content.leagues.LeaguesTask;
 import com.rs.game.content.world.doors.Doors;
 import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.ForceTalk;
@@ -168,10 +169,15 @@ public class Thieving {
 							stop();
 							return;
 						}
-						player.getInventory().addItem(stall.getItem(Utils.getRandomInclusive(stall.item.length - 1)), Utils.getRandomInclusive(stall.getAmount()));
+						Item reward = new Item(stall.getItem(Utils.getRandomInclusive(stall.item.length - 1)), Utils.getRandomInclusive(stall.getAmount()));
+						player.getInventory().addItem(reward);
 						player.getSkills().addXp(Constants.THIEVING, stall.getExperience());
 						checkGuards(player);
 						World.spawnObjectTemporary(emptyStall, stall.getTime()*2);
+						if(reward.getId() == 1901 && !player.getLeaguesManager().getTask(LeaguesTask.STEAL_CHOCOLATE_SLICE))
+							player.getLeaguesManager().completeTask(LeaguesTask.STEAL_CHOCOLATE_SLICE);
+						if(reward.getId() == 950 && !player.getLeaguesManager().getTask(LeaguesTask.STEAL_SILK))
+							player.getLeaguesManager().completeTask(LeaguesTask.STEAL_SILK);
 						stop();
 					}
 				}, 0, 0);

@@ -21,6 +21,7 @@ import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
 import com.rs.game.content.DropCleanersKt;
+import com.rs.game.content.leagues.LeaguesTask;
 import com.rs.game.content.skills.hunter.BoxHunterNPC;
 import com.rs.game.content.skills.hunter.BoxHunterType;
 import com.rs.game.content.skills.hunter.BoxTrapType;
@@ -128,6 +129,8 @@ public class BoxStyleTrap extends OwnedObject {
 				continue;
 			player.getInventory().addItemDrop(i);
 		}
+		if(!player.getLeaguesManager().getTask(LeaguesTask.SNARE_BIRD))
+			player.getLeaguesManager().completeTask(LeaguesTask.SNARE_BIRD);
 		if (getTrapType() != BoxTrapType.MAGIC_BOX && getTrapType() != BoxTrapType.DEAD_FALL)
 			player.getInventory().addItemDrop(getTrapType().getId(), 1);
 		if (getTrapType() == BoxTrapType.TREE_NET)

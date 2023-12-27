@@ -512,7 +512,7 @@ public class TreasureTrailsManager {
 		for(Object[] multi : multiple) {
 			LeaguesTask task = (LeaguesTask) multi[0];
 			int required = (int) multi[1];
-			int done = player.getCount(LEVEL[level] + " clues completed");
+			int done = player.getCounterValue(LEVEL[level] + " clues completed");
 			if(done >= required && !player.getLeaguesManager().getTask(task))
 				player.getLeaguesManager().completeTask(task);
 		}
@@ -520,7 +520,24 @@ public class TreasureTrailsManager {
 
 	public static Object[][][] OPEN_SCROLLS_MULTIPLE = {
 			{
-					{ LeaguesTask.OPEN_25_EASY_CLUE, 25 }
+					{ LeaguesTask.OPEN_25_EASY_CLUE, 25 },
+					{ LeaguesTask.OPEN_75_EASY_CLUE, 75 },
+					{ LeaguesTask.OPEN_150_EASY_CLUE, 150 },
+			},
+			{
+					{ LeaguesTask.OPEN_25_MEDIUM_CLUE, 25 },
+					{ LeaguesTask.OPEN_75_MEDIUM_CLUE, 75 },
+					{ LeaguesTask.OPEN_150_MEDIUM_CLUE, 150 },
+			},
+			{
+					{LeaguesTask.OPEN_25_HARD_CLUE, 25 },
+					{LeaguesTask.OPEN_75_HARD_CLUE, 75 },
+					{LeaguesTask.OPEN_150_HARD_CLUE, 150 },
+			},
+			{
+					{LeaguesTask.OPEN_25_ELITE_CLUE, 25 },
+					{LeaguesTask.OPEN_75_ELITE_CLUE, 75 },
+					{LeaguesTask.OPEN_150_ELITE_CLUE, 150 },
 			}
 	};
 

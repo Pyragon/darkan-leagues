@@ -17,6 +17,7 @@
 package com.rs.game.content.skills.fishing;
 
 import com.rs.cache.loaders.ItemDefinitions;
+import com.rs.game.content.leagues.LeaguesTask;
 import com.rs.game.content.skills.dungeoneering.DungeonConstants;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
@@ -123,6 +124,12 @@ public class Fishing extends PlayerAction {
         int level = player.getSkills().getLevel(Constants.FISHING) + player.getInvisibleSkillBoost(Skills.FISHING);
         for (Fish f : spot.getFish()) {
             if (f.checkRequirements(player) && f.rollSuccess(player, level)) {
+                if(f == Fish.HERRING && !player.getLeaguesManager().getTask(LeaguesTask.CATCH_HERRING))
+                    player.getLeaguesManager().completeTask(LeaguesTask.CATCH_HERRING);
+                if(f == Fish.SHRIMP && !player.getLeaguesManager().getTask(LeaguesTask.CATCH_SHRIMP))
+                    player.getLeaguesManager().completeTask(LeaguesTask.CATCH_SHRIMP);
+                if(f == Fish.ANCHOVIES && !player.getLeaguesManager().getTask(LeaguesTask.CATCH_ANCHOVY))
+                    player.getLeaguesManager().completeTask(LeaguesTask.CATCH_ANCHOVY);
                 f.giveFish(player, spot);
                 return 4;
             }

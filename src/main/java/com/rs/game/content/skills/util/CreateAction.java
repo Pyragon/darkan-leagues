@@ -62,6 +62,10 @@ public class CreateAction extends PlayerAction {
 		return true;
 	}
 
+	public Item[] getProducts() {
+		return products[choice];
+	}
+
 	@Override
 	public boolean start(Player player) {
 		return checkAll(player);

@@ -23,6 +23,7 @@ import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.statements.Statement;
 import com.rs.game.World;
+import com.rs.game.content.leagues.LeaguesTask;
 import com.rs.game.content.pets.Pets;
 import com.rs.game.content.skills.construction.HouseConstants.*;
 import com.rs.game.map.Chunk;
@@ -637,6 +638,8 @@ public class House {
 		refreshHouse();
 		player.setCloseChatboxInterfaceEvent(null);
 		player.setCloseInterfacesEvent(null);
+		if(!player.getLeaguesManager().getTask(LeaguesTask.BUILD_ROOM))
+			player.getLeaguesManager().completeTask(LeaguesTask.BUILD_ROOM);
 	}
 
 	public void openBuildInterface(GameObject object, final Builds build) {
@@ -917,7 +920,8 @@ public class House {
 				player.sendMessage("The owner currently has build mode turned on.");
 				return false;
 			}
-		}
+		} else if(!player.getLeaguesManager().getTask(LeaguesTask.ENTER_OWN_HOUSE))
+			player.getLeaguesManager().completeTask(LeaguesTask.ENTER_OWN_HOUSE);
 		players.add(player);
 		sendStartInterface(player);
 		player.getControllerManager().startController(new HouseController(this));

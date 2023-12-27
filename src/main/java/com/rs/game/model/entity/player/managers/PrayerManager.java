@@ -19,6 +19,7 @@ package com.rs.game.model.entity.player.managers;
 import com.rs.cache.loaders.Bonus;
 import com.rs.engine.quest.Quest;
 import com.rs.game.World;
+import com.rs.game.content.leagues.LeaguesTask;
 import com.rs.game.content.skills.prayer.Leech;
 import com.rs.game.content.skills.prayer.Prayer;
 import com.rs.game.content.skills.prayer.Sap;
@@ -255,6 +256,16 @@ public class PrayerManager {
 				quickPrays.add(prayer);
 		} else {
 			active.add(prayer);
+			if(active.contains(Prayer.ATK_T2) && active.contains(Prayer.STR_T2) && !player.getLeaguesManager().getTask(LeaguesTask.SUPERHUMAN_STRENGTH_IMPROVED_REFLEXES))
+				player.getLeaguesManager().completeTask(LeaguesTask.SUPERHUMAN_STRENGTH_IMPROVED_REFLEXES);
+			if(active.contains(Prayer.SMITE) && !player.getLeaguesManager().getTask(LeaguesTask.SMITE))
+				player.getLeaguesManager().completeTask(LeaguesTask.SMITE);
+			if(active.contains(Prayer.PROTECT_MELEE) && !player.getLeaguesManager().getTask(LeaguesTask.PROTECT_MELEE))
+				player.getLeaguesManager().completeTask(LeaguesTask.PROTECT_MELEE);
+			if(active.contains(Prayer.CHIVALRY) && !player.getLeaguesManager().getTask(LeaguesTask.CHIVALRY))
+				player.getLeaguesManager().completeTask(LeaguesTask.CHIVALRY);
+			if(active.contains(Prayer.PIETY) && !player.getLeaguesManager().getTask(LeaguesTask.PIETY))
+				player.getLeaguesManager().completeTask(LeaguesTask.PIETY);
 			if (isOverhead(prayer))
 				player.getAppearance().generateAppearanceData();
 			if (prayer.getActivateSound() != -1)

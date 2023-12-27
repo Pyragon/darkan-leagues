@@ -17,6 +17,7 @@
 package com.rs.game.content.skills.slayer;
 
 import com.rs.engine.dialogue.HeadE;
+import com.rs.game.content.leagues.LeaguesTask;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
@@ -93,6 +94,8 @@ public class SlayerTaskManager {
 			player.jingle(61);
 			removeTask();
 			player.updateSlayerTask();
+			if(!player.getLeaguesManager().getTask(LeaguesTask.COMPLETE_SLAYER_TASK))
+				player.getLeaguesManager().completeTask(LeaguesTask.COMPLETE_SLAYER_TASK);
 		}
 	}
 
@@ -138,6 +141,8 @@ public class SlayerTaskManager {
 		setTask(chosenTask);
 		player.updateSlayerTask();
 		killsLeft = Utils.random(chosenTask.getMin(), chosenTask.getMax());
+		if(!player.getLeaguesManager().getTask(LeaguesTask.RECEIVE_SLAYER_TASK))
+			player.getLeaguesManager().completeTask(LeaguesTask.RECEIVE_SLAYER_TASK);
 	}
 
 	public void getTaskFrom(Player player, final Master master) {

@@ -21,6 +21,7 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.cache.loaders.interfaces.IFEvents.UseFlag;
 import com.rs.game.content.ItemConstants;
+import com.rs.game.content.leagues.LeaguesTask;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Item;
@@ -306,6 +307,8 @@ public class Shop {
 				generalStock[slotId - mainStock.length] = null;
 			refreshShop();
 			sendInventory(player);
+			if(name.equals("Trader Stan's Trading Post") && !player.getLeaguesManager().getTask(LeaguesTask.BUY_TRADER_CREWMEMBER))
+				player.getLeaguesManager().completeTask(LeaguesTask.BUY_TRADER_CREWMEMBER);
 		}
 	}
 

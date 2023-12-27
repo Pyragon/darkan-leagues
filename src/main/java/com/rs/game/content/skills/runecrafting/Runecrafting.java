@@ -17,6 +17,7 @@
 package com.rs.game.content.skills.runecrafting;
 
 import com.rs.cache.loaders.ItemDefinitions;
+import com.rs.game.content.leagues.LeaguesTask;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
@@ -330,6 +331,8 @@ public class Runecrafting {
 		player.setNextAnimation(new Animation(791));
 		player.lock(5);
 		player.sendMessage("You bind the temple's power into assorted runes.");
+		if(!player.getLeaguesManager().getTask(LeaguesTask.CRAFT_RUNE))
+			player.getLeaguesManager().completeTask(LeaguesTask.CRAFT_RUNE);
 	}
 
 	public static void runecraft(Player player, RCRune rune, boolean span) {
@@ -411,6 +414,8 @@ public class Runecrafting {
 				player.setNextAnimation(new Animation(791));
 				player.lock(5);
 				player.sendMessage("You bind the temple's power into Armadyl runes.");
+				if(!player.getLeaguesManager().getTask(LeaguesTask.CRAFT_RUNE))
+					player.getLeaguesManager().completeTask(LeaguesTask.CRAFT_RUNE);
 			}
 			player.getSkills().addXp(Constants.RUNECRAFTING, rune.xp * runes);
 			player.getInventory().addItem(21773, numberArma);
@@ -432,6 +437,8 @@ public class Runecrafting {
 			player.setNextAnimation(new Animation(791));
 			player.lock(5);
 			player.sendMessage("You bind the temple's power into " + ItemDefinitions.getDefs(rune.runeId).getName().toLowerCase() + "s.");
+			if(!player.getLeaguesManager().getTask(LeaguesTask.CRAFT_RUNE))
+				player.getLeaguesManager().completeTask(LeaguesTask.CRAFT_RUNE);
 		}
 		player.getInventory().addItem(rune.runeId, runes);
 		player.incrementCount(ItemDefinitions.getDefs(rune.runeId).getName()+" runecrafted", runes);
@@ -471,6 +478,8 @@ public class Runecrafting {
 		if (playerXPos == ruinsXPos && playerYPos < ruinsYPos) { direction = "north"; }
 
 		p.sendMessage("The talisman pulls towards the " + direction + ".", false);
+		if(!p.getLeaguesManager().getTask(LeaguesTask.LOCATE_ALTAR))
+			p.getLeaguesManager().completeTask(LeaguesTask.LOCATE_ALTAR);
 	}
 
 	public static final int[] POUCH_SIZE = { 3, 6, 9, 12, 18 };

@@ -17,6 +17,7 @@
 package com.rs.game.content.skills.slayer;
 
 import com.rs.game.World;
+import com.rs.game.content.leagues.LeaguesTask;
 import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
@@ -43,7 +44,11 @@ public class Slayer {
 	public static final int LEARN_INTERFACE = 378;
 	public static final int ASSIGNMENT_INTERFACE = 161;
 
-	public static ItemClickHandler handleKillsLeft = new ItemClickHandler(new String[] { "Kills-left" }, e -> e.getPlayer().sendMessage(e.getPlayer().getSlayer().getTaskString()));
+	public static ItemClickHandler handleKillsLeft = new ItemClickHandler(new String[] { "Kills-left" }, e -> {
+		e.getPlayer().sendMessage(e.getPlayer().getSlayer().getTaskString());
+		if(!e.getPlayer().getLeaguesManager().getTask(LeaguesTask.CHECK_SLAYER_TASK))
+			e.getPlayer().getLeaguesManager().completeTask(LeaguesTask.CHECK_SLAYER_TASK);
+	});
 	
 	public static ItemOnPlayerHandler groupSlayer = new ItemOnPlayerHandler(new Object[] { 4155 }, e -> {
 		e.getPlayer().sendMessage("Group slayer is in progress.");

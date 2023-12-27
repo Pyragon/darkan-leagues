@@ -216,4 +216,8 @@ public class PickPocketAction extends PlayerAction {
 		return null;
 	}
 
+	public NPC getNPC() {
+		return npc;
+	}
+
 }

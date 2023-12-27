@@ -18,6 +18,7 @@ package com.rs.game.content.skills.firemaking;
 
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.content.Effect;
+import com.rs.game.content.leagues.LeaguesTask;
 import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
@@ -45,7 +46,7 @@ public class Bonfire extends PlayerAction {
 	});
 
 	public static enum Log {
-		LOG(1511, 3098, 1, 50, 6),
+		NORMAL(1511, 3098, 1, 50, 6),
 		ACHEY(2862, 3098, 1, 50, 6),
 		OAK(1521, 3099, 15, 75, 12),
 		WILLOW(1519, 3101, 30, 112.5, 18),
@@ -54,7 +55,7 @@ public class Bonfire extends PlayerAction {
 		MAPLE(1517, 3100, 45, 157, 36),
 		MAHOGANY(6332, 3098, 50, 180, 36),
 		EUCALYPTUS(12581, 3112, 58, 241, 48),
-		YEWS(1515, 3111, 60, 252, 54),
+		YEW(1515, 3111, 60, 252, 54),
 		MAGIC(1513, 3135, 75, 378, 60),
 		BLISTERWOOD(21600, 3113, 76, 378, 60),
 		CURSED_MAGIC(13567, 3116, 82, 378, 60);
@@ -153,10 +154,30 @@ public class Bonfire extends PlayerAction {
 		player.setNextSpotAnim(new SpotAnim(log.gfxId));
 		player.sendMessage("You add a log to the fire.", true);
 		if (count++ == 4 && !player.hasEffect(Effect.BONFIRE)) {
-			player.addEffect(Effect.BONFIRE, log.boostTime * 100);
+			player.addEffect(Effect.BONFIRE, (long) log.boostTime * 100);
 			int percentage = (int) (getBonfireBoostMultiplier(player) * 100 - 100);
 			player.sendMessage("<col=00ff00>The bonfire's warmth increases your maximum health by " + percentage + "%. This will last " + log.boostTime + " minutes.");
 		}
+		if(log == Log.NORMAL && !player.getLeaguesManager().getTask(LeaguesTask.BURN_NORMAL))
+			player.getLeaguesManager().completeTask(LeaguesTask.BURN_NORMAL);
+		if(log == Log.OAK && !player.getLeaguesManager().getTask(LeaguesTask.BURN_OAK))
+			player.getLeaguesManager().completeTask(LeaguesTask.BURN_OAK);
+		if(log == Log.WILLOW && !player.getLeaguesManager().getTask(LeaguesTask.BURN_100_WILLOW)) {
+			int total = (int) player.getLeaguesManager().getAttribute(LeaguesTask.BURN_100_WILLOW);
+			total++;
+			player.getLeaguesManager().setAttribute(LeaguesTask.BURN_100_WILLOW, total);
+			if(total >= 100)
+				player.getLeaguesManager().completeTask(LeaguesTask.BURN_100_WILLOW);
+		}
+		if(log == Log.YEW && !player.getLeaguesManager().getTask(LeaguesTask.BURN_100_YEW)) {
+			int total = (int) player.getLeaguesManager().getAttribute(LeaguesTask.BURN_100_YEW);
+			total++;
+			player.getLeaguesManager().setAttribute(LeaguesTask.BURN_100_YEW, total);
+			if(total >= 100)
+				player.getLeaguesManager().completeTask(LeaguesTask.BURN_100_YEW);
+		}
+		if(log == Log.MAGIC && !player.getLeaguesManager().getTask(LeaguesTask.BURN_MAGIC))
+			player.getLeaguesManager().completeTask(LeaguesTask.BURN_MAGIC);
 		return 5;
 	}
 

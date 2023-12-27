@@ -18,6 +18,7 @@ package com.rs.game.content.skills.hunter;
 
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.game.content.Effect;
+import com.rs.game.content.leagues.LeaguesTask;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
@@ -214,6 +215,8 @@ public class FlyingEntityHunter {
 			e.getPlayer().getSkills().addXp(Constants.HUNTER, entity.getExperience());
 			e.getPlayer().sendMessage("You manage to catch the " + e.getNPC().getName().toLowerCase() + " and squeeze it into a jar.");
 			e.getNPC().sendDeath(e.getPlayer());
+			if((entity == FlyingEntities.BABY_IMPLING || entity == FlyingEntities.BABY_IMPLING_PP) && !e.getPlayer().getLeaguesManager().getTask(LeaguesTask.CATCH_BABY_IMPLING))
+				e.getPlayer().getLeaguesManager().completeTask(LeaguesTask.CATCH_BABY_IMPLING);
 			return;
 		}
 		e.getPlayer().sendMessage("...you stumble and miss the " + e.getNPC().getName().toLowerCase());

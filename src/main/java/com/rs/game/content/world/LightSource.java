@@ -16,6 +16,7 @@
 //
 package com.rs.game.content.world;
 
+import com.rs.game.content.leagues.LeaguesTask;
 import com.rs.game.content.world.areas.dungeons.UndergroundDungeonController;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
@@ -102,6 +103,8 @@ public class LightSource {
 		}
 		player.getInventory().replaceItem(LIGHT_SOURCES[1][slot], item.getAmount(), itemSlot);
 		player.sendMessage("You light the " + item.getName().toLowerCase() + ".");
+		if(item.getId() == 594 && !player.getLeaguesManager().getTask(LeaguesTask.LIGHT_A_TORCH))
+			player.getLeaguesManager().completeTask(LeaguesTask.LIGHT_A_TORCH);
 		return true;
 	}
 }

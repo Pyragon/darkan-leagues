@@ -18,6 +18,7 @@ package com.rs.game.content.skills.firemaking;
 
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
+import com.rs.game.content.leagues.LeaguesTask;
 import com.rs.game.content.minigames.duel.DuelArenaController;
 import com.rs.game.content.minigames.duel.DuelController;
 import com.rs.game.content.skills.dungeoneering.DungeonConstants;
@@ -214,6 +215,27 @@ public class Firemaking extends Action {
 				if (player != null)
 					player.getSkills().addXp(Constants.FIREMAKING, increasedExperience(player, fire.getExperience()));
 				entity.setNextFaceTile(tile);
+				Player p = getPlayer(entity);
+				if(fire == Fire.NORMAL && !p.getLeaguesManager().getTask(LeaguesTask.BURN_NORMAL))
+					p.getLeaguesManager().completeTask(LeaguesTask.BURN_NORMAL);
+				if(fire == Fire.OAK && !p.getLeaguesManager().getTask(LeaguesTask.BURN_OAK))
+					p.getLeaguesManager().completeTask(LeaguesTask.BURN_OAK);
+				if(fire == Fire.WILLOW && !p.getLeaguesManager().getTask(LeaguesTask.BURN_100_WILLOW)) {
+					int total = (int) p.getLeaguesManager().getAttribute(LeaguesTask.BURN_100_WILLOW);
+					total++;
+					p.getLeaguesManager().setAttribute(LeaguesTask.BURN_100_WILLOW, total);
+					if(total >= 100)
+						p.getLeaguesManager().completeTask(LeaguesTask.BURN_100_WILLOW);
+				}
+				if(fire == Fire.YEW && !p.getLeaguesManager().getTask(LeaguesTask.BURN_100_YEW)) {
+					int total = (int) p.getLeaguesManager().getAttribute(LeaguesTask.BURN_100_YEW);
+					total++;
+					p.getLeaguesManager().setAttribute(LeaguesTask.BURN_100_YEW, total);
+					if(total >= 100)
+						p.getLeaguesManager().completeTask(LeaguesTask.BURN_100_YEW);
+				}
+				if(fire == Fire.MAGIC && !p.getLeaguesManager().getTask(LeaguesTask.BURN_MAGIC))
+					p.getLeaguesManager().completeTask(LeaguesTask.BURN_MAGIC);
 			}
 		}, 1);
 		entity.getTempAttribs().setL("Fire", System.currentTimeMillis() + 1800);

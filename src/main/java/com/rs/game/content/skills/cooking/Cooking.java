@@ -16,6 +16,7 @@
 //
 package com.rs.game.content.skills.cooking;
 
+import com.rs.game.content.leagues.LeaguesTask;
 import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
@@ -245,11 +246,20 @@ public class Cooking extends PlayerAction {
 			player.getInventory().deleteItem(cookable.getRawItem().getId(), 1);
 			player.getInventory().addItem(cookable.getBurntItem().getId(), cookable.getBurntItem().getAmount());
 			player.sendMessage("Oops! You accidentally burnt the " + productName + ".", true);
+			if(!player.getLeaguesManager().getTask(LeaguesTask.BURN_FOOD))
+				player.getLeaguesManager().completeTask(LeaguesTask.BURN_FOOD);
 		} else {
 			player.getInventory().deleteItem(cookable.getRawItem().getId(), 1);
 			player.getInventory().addItem(cookable.getProductItem().getId(), cookable.getProductItem().getAmount());
 			player.getSkills().addXp(Constants.COOKING, cookable.getXp());
 			player.sendMessage("You successfully cook the " + productName + ".", true);
+			int cooked = (int) player.getLeaguesManager().getAttribute(LeaguesTask.COOK_5_PIECES);
+			cooked++;
+			player.getLeaguesManager().setAttribute(LeaguesTask.COOK_5_PIECES, cooked);
+			if(cooked >= 5 && !player.getLeaguesManager().getTask(LeaguesTask.COOK_5_PIECES))
+				player.getLeaguesManager().completeTask(LeaguesTask.COOK_5_PIECES);
+			if(cookable == Cookables.RAW_SHRIMP && !player.getLeaguesManager().getTask(LeaguesTask.COOK_SHRIMP))
+				player.getLeaguesManager().completeTask(LeaguesTask.COOK_SHRIMP);
 		}
 		if (amount > 0) {
 			player.sendMessage("You attempt to cook the " + productName + ".", true);

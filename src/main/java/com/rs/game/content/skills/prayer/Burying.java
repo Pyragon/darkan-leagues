@@ -17,6 +17,7 @@
 package com.rs.game.content.skills.prayer;
 
 import com.rs.cache.loaders.ItemDefinitions;
+import com.rs.game.content.leagues.LeaguesTask;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
@@ -114,6 +115,10 @@ public class Burying {
 					player.incrementCount(itemDef.getName()+" buried");
 					player.addBoneDelay(1);
 					player.unlock();
+					if(!player.getLeaguesManager().getTask(LeaguesTask.BURY_BONES))
+						player.getLeaguesManager().completeTask(LeaguesTask.BURY_BONES);
+					if((bone == Bone.DRAGON || bone == Bone.WYVERN) && !player.getLeaguesManager().getTask(LeaguesTask.BURY_DRAGON_BONES))
+						player.getLeaguesManager().completeTask(LeaguesTask.BURY_DRAGON_BONES);
 					stop();
 				}
 

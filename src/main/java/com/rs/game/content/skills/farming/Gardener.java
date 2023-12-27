@@ -21,6 +21,7 @@ import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
+import com.rs.game.content.leagues.LeaguesTask;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
@@ -150,6 +151,8 @@ public enum Gardener {
 		player.getInventory().deleteItemNoted(cost);
 		patch.diseaseProtected = true;
 		player.sendMessage(npc.getName(player) + " takes " + cost.getAmount() + " " + cost.getName() + " and agrees to protect the patch for you." );
+		if(!player.getLeaguesManager().getTask(LeaguesTask.PROTECT_PATCH))
+			player.getLeaguesManager().completeTask(LeaguesTask.PROTECT_PATCH);
 	}
 
 	private static Dialogue buyItem(Player player, int npcId, int itemId, int cost) {

@@ -18,6 +18,8 @@ package com.rs.game.content.skills.herblore;
 
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.statements.MakeXStatement;
+import com.rs.game.content.Potions;
+import com.rs.game.content.leagues.LeaguesTask;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.lib.Constants;
@@ -78,6 +80,8 @@ public class Herblore extends PlayerAction {
 		String potName = potion.getProduct().getName().toLowerCase();
 		player.sendMessage("You mix " + Utils.addArticle(potName) + ".", true);
 		player.getSkills().addXp(Constants.HERBLORE, potion.getXp());
+		if(potion == CraftablePotion.ANTIPOISON && !player.getLeaguesManager().getTask(LeaguesTask.CREATE_ANTIPOISON))
+			player.getLeaguesManager().completeTask(LeaguesTask.CREATE_ANTIPOISON);
 		if (ticks > 0)
 			return cleansingProc ? 0 : 1;
 		return -1;
@@ -100,4 +104,8 @@ public class Herblore extends PlayerAction {
 			.addNext(new MakeXStatement(new int[]{potion.getProduct().getId()}, 28))
 			.addNext(() -> e.getPlayer().getActionManager().setAction(new Herblore(potion, MakeXStatement.getQuantity(e.getPlayer())))));
 	});
+
+	public CraftablePotion getPotion() {
+		return potion;
+	}
 }

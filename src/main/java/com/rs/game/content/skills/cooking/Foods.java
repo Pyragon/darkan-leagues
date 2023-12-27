@@ -18,6 +18,7 @@ package com.rs.game.content.skills.cooking;
 
 import com.rs.game.content.Effect;
 import com.rs.game.content.ItemConstants;
+import com.rs.game.content.leagues.LeaguesTask;
 import com.rs.game.content.skills.dungeoneering.KinshipPerk;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
@@ -77,6 +78,8 @@ public class Foods {
         player.getInventory().refresh();
         if (food.effect != null)
             food.effect.accept(player);
+        if((food == Food.PURPLE_SWEETS || food == Food.PURPLE_SWEETS2) && !player.getLeaguesManager().getTask(LeaguesTask.EAT_PURPLE_SWEETS))
+            player.getLeaguesManager().completeTask(LeaguesTask.EAT_PURPLE_SWEETS);
         return true;
     }
 

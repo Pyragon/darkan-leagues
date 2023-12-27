@@ -20,6 +20,7 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
+import com.rs.game.content.leagues.LeaguesTask;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.Entity;
@@ -214,6 +215,29 @@ public class Woodcutting extends Action {
 				entity.setNextAnimation(new Animation(-1));
 				return -1;
 			}
+			if(entity instanceof Player player) {
+				if(!player.getLeaguesManager().getTask(LeaguesTask.CHOP_SOME_LOGS))
+					player.getLeaguesManager().completeTask(LeaguesTask.CHOP_SOME_LOGS);
+				if(type == TreeType.WILLOW && !player.getLeaguesManager().getTask(LeaguesTask.CHOP_100_WILLOW)) {
+					int count = (int) player.getLeaguesManager().getAttribute(LeaguesTask.CHOP_100_WILLOW);
+					count++;
+					player.getLeaguesManager().setAttribute(LeaguesTask.CHOP_100_WILLOW, count);
+					if(count >= 100)
+						player.getLeaguesManager().completeTask(LeaguesTask.CHOP_100_WILLOW);
+				}
+				if(type == TreeType.MAGIC && !player.getLeaguesManager().getTask(LeaguesTask.CHOP_75_MAGIC)) {
+					int count = (int) player.getLeaguesManager().getAttribute(LeaguesTask.CHOP_75_MAGIC);
+					count++;
+					player.getLeaguesManager().setAttribute(LeaguesTask.CHOP_75_MAGIC, count);
+					if(count >= 75)
+						player.getLeaguesManager().completeTask(LeaguesTask.CHOP_75_MAGIC);
+				}
+				if(hatchet == Hatchet.STEEL && !player.getLeaguesManager().getTask(LeaguesTask.CHOP_LOGS_WITH_STEEL))
+					player.getLeaguesManager().completeTask(LeaguesTask.CHOP_LOGS_WITH_STEEL);
+				if(hatchet == Hatchet.RUNE && !player.getLeaguesManager().getTask(LeaguesTask.CHOP_LOGS_WITH_RUNE))
+					player.getLeaguesManager().completeTask(LeaguesTask.CHOP_LOGS_WITH_RUNE);
+			}
+
 		}
 		return 3;
 	}
@@ -259,6 +283,8 @@ public class Woodcutting extends Action {
 				for (Item rew : DropTable.calculateDrops(player, DropSets.getDropSet("nest_drop")))
 					World.addGroundItem(rew, Tile.of(player.getTile()), player, true, 30);
 				player.sendMessage("<col=FF0000>A bird's nest falls out of the tree!");
+				if(!player.getLeaguesManager().getTask(LeaguesTask.BIRD_NEST))
+					player.getLeaguesManager().completeTask(LeaguesTask.BIRD_NEST);
 			}
 			player.getSkills().addXp(Constants.WOODCUTTING, type.getXp() * getLumberjackBonus(player));
 			if (player.hasEffect(Effect.JUJU_WOODCUTTING)) {
@@ -270,6 +296,8 @@ public class Woodcutting extends Action {
 				for (Item rew : DropTable.calculateDrops(player, DropSets.getDropSet("nest_drop")))
 					World.addGroundItem(rew, Tile.of(player.getTile()), player, true, 30);
 				player.sendMessage("<col=FF0000>A bird's nest falls out of the tree!");
+				if(!player.getLeaguesManager().getTask(LeaguesTask.BIRD_NEST))
+					player.getLeaguesManager().completeTask(LeaguesTask.BIRD_NEST);
 			}
 			if (type.getLogsId() != null) {
 				if (player.hasEffect(Effect.JUJU_WC_BANK)) {

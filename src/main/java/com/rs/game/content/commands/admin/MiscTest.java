@@ -129,8 +129,56 @@ public class MiscTest {
 			p.sendMessage("Added "+xp+" xp to "+Skills.SKILL_NAME[skill]);
 		});
 
-		Commands.add(Rights.DEVELOPER, "tasks", "Lists tasks", (p, args) -> {
+		Commands.add(Rights.DEVELOPER, "settask [name] [true/false]", "Sets the task to either true or false", (p, args) -> {
+			String name = args[0];
+			boolean value = Boolean.parseBoolean(args[1]);
+			LeaguesTask task = LeaguesTask.valueOf(name);
+			p.getLeaguesManager().getTasks().put(task, value);
+			if(task.getAttributesDefault() != null)
+				p.getLeaguesManager().getAttributes().put(task, task.getAttributesDefault());
+		});
+
+		Commands.add(Rights.DEVELOPER, "setattr [name] [amount]", "Sets a leagues task attribute", (p, args) -> {
+			String name = args[0];
+			int amount = Integer.parseInt(args[1]);
+			LeaguesTask task = LeaguesTask.valueOf(name);
+			p.getLeaguesManager().getAttributes().put(task, amount);
+		});
+
+		Commands.add(Rights.DEVELOPER, "itemn", "Spawns an item by name", (p, args) -> {
+			String name = String.join(" ", args);
+			ArrayList<String> names = new ArrayList<>();
+			for(int i = 0; i < Utils.getItemDefinitionsSize(); i++) {
+				ItemDefinitions defs = ItemDefinitions.getDefs(i);
+				if(defs == null) continue;
+				if(defs.name.equalsIgnoreCase(name)) {
+					p.getInventory().addItem(i, 1);
+					p.sendMessage("Spawned item: "+defs.name+" - "+i);
+					return;
+				}
+				if(defs.name.toLowerCase().contains(name.toLowerCase()))
+					names.add(defs.name+" - "+i);
+			}
+			for(String itemName : names)
+				p.sendMessage(itemName);
+		});
+
+		Commands.add(Rights.DEVELOPER, "tasks [true/false/name]", "Lists tasks (boolean to filter completed, or name to search)", (p, args) -> {
+			Boolean completed = null;
+			String search = null;
+			if(args.length > 0) {
+				if(args[0].equalsIgnoreCase("true") || args[0].equalsIgnoreCase("false"))
+					completed = Boolean.parseBoolean(args[0]);
+				else
+					search = String.join(" ", args);
+			}
 			for(LeaguesTask task : p.getLeaguesManager().getTasks().keySet()) {
+				if(completed != null) {
+					if(completed != p.getLeaguesManager().getTasks().get(task))
+						continue;
+				}
+				if(search != null && !task.getName().toLowerCase().contains(search))
+					continue;
 				p.sendMessage(task.name() + ": " + p.getLeaguesManager().getTasks().get(task));
 			}
 			p.sendMessage(p.getLeaguesManager().getTasksCompleted()+" - "+p.getLeaguesManager().getPoints());

@@ -958,9 +958,23 @@ public final class Skills {
 		if(newLevel >= 95 && !player.getLeaguesManager().getTask(LeaguesTask.ACHIEVE_FIRST_LEVEL_95))
 			player.getLeaguesManager().completeTask(LeaguesTask.ACHIEVE_FIRST_LEVEL_95);
 		if(newLevel >= 99) {
-			LeaguesTask task = LeaguesManager.REACH_99_SKILLS[skill];
-			if(task != null && !player.getLeaguesManager().getTask(task))
-				player.getLeaguesManager().completeTask(task);
+			LeaguesTask[] task = LeaguesManager.SKILLS[skill];
+			if(task != null && !player.getLeaguesManager().getTask(task[0]))
+				player.getLeaguesManager().completeTask(task[0]);
+		}
+		if(newXp >= 25_000_000) {
+			LeaguesTask[] task = LeaguesManager.SKILLS[skill];
+			if(task != null) {
+				LeaguesTask task25M = task[1];
+				LeaguesTask task35M = task[2];
+				LeaguesTask task50M = task[3];
+				if(!player.getLeaguesManager().getTask(task25M))
+					player.getLeaguesManager().completeTask(task25M);
+				if(newXp >= 35_000_000 && !player.getLeaguesManager().getTask(task35M))
+					player.getLeaguesManager().completeTask(task35M);
+				if(newXp >= 50_000_000 && !player.getLeaguesManager().getTask(task50M))
+					player.getLeaguesManager().completeTask(task50M);
+			}
 		}
 		if(newLevel >= 120 && !player.getLeaguesManager().getTask(LeaguesTask.REACH_120_DUNGEONEERING))
 			player.getLeaguesManager().completeTask(LeaguesTask.REACH_120_DUNGEONEERING);

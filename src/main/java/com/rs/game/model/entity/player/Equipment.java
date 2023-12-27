@@ -145,6 +145,22 @@ public final class Equipment {
 			player.sendMessage("These gloves have " + item.getMetaDataI("brawlerCharges") + " charges left.");
 	}
 
+	public boolean containsAll(int... itemIds) {
+		Item[] equipped = items.getItemsCopy();
+		s: for(int id : itemIds) {
+			for(Item item : equipped) {
+				if(item == null) continue;
+				if(item.getId() == id) continue s;
+			}
+			return false;
+		}
+		return true;
+	}
+
+	public boolean contains(int itemId) {
+		return items.contains(new Item(itemId, 1));
+	}
+
 	public boolean containsOneItem(int... itemIds) {
 		for (int itemId : itemIds)
 			if (items.containsOne(new Item(itemId, 1)))

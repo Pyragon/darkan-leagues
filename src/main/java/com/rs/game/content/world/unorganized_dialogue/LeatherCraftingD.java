@@ -21,6 +21,7 @@ import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.statements.MakeXStatement;
 import com.rs.engine.dialogue.statements.MakeXStatement.MakeXType;
+import com.rs.game.content.leagues.LeaguesTask;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.lib.Constants;
@@ -169,6 +170,8 @@ public class LeatherCraftingD extends Conversation {
 						if (extraItems != null)
 							player.getInventory().deleteItem(extraItems[componentIndex]);
 						player.setNextAnimation(new Animation(1249));
+						if(item.getId() == 1129 && !player.getLeaguesManager().getTask(LeaguesTask.CRAFT_LEATHER_BODY))
+							player.getLeaguesManager().completeTask(LeaguesTask.CRAFT_LEATHER_BODY);
 						return 3;
 					}
 

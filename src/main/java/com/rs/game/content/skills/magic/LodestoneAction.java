@@ -18,6 +18,7 @@ package com.rs.game.content.skills.magic;
 
 import com.rs.engine.quest.Quest;
 import com.rs.game.content.achievements.Achievement;
+import com.rs.game.content.leagues.LeaguesTask;
 import com.rs.game.model.entity.Teleport;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
@@ -157,6 +158,8 @@ public class LodestoneAction extends PlayerAction {
 					player.resetReceivedHits();
 					player.resetReceivedDamage();
 					player.unlock();
+					if(!player.getLeaguesManager().getTask(LeaguesTask.LODESTONE_TELEPORT))
+						player.getLeaguesManager().completeTask(LeaguesTask.LODESTONE_TELEPORT);
 					return false;
 				}
 				return true;

@@ -284,4 +284,12 @@ public class Mining extends Action {
 				player.getInventory().addItemDrop(1623, 1); // Uncut Sapphire
 		}
 	}
+
+	public RockType getRock() {
+		return type;
+	}
+
+	public Pickaxe getPick() {
+		return pick;
+	}
 }

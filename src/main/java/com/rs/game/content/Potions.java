@@ -18,6 +18,7 @@ package com.rs.game.content;
 
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.World;
+import com.rs.game.content.leagues.LeaguesTask;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.content.world.areas.wilderness.WildernessController;
 import com.rs.game.model.entity.ForceTalk;
@@ -889,6 +890,8 @@ public class Potions {
 				player.setNextAnimation(new Animation(829));
 				player.soundEffect(4580);
 				player.sendMessage("You drink some of your " + ItemDefinitions.getDefs(itemId).name.toLowerCase().replace(" (1)", "").replace(" (2)", "").replace(" (3)", "").replace(" (4)", "").replace(" (5)", "").replace(" (6)", "") + ".", true);
+				if(this == STRENGTH_POTION && !player.getLeaguesManager().getTask(LeaguesTask.DRINK_STRENGTH_POTION))
+					player.getLeaguesManager().completeTask(LeaguesTask.DRINK_STRENGTH_POTION);
 			}
 		}
 		

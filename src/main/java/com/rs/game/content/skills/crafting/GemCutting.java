@@ -17,6 +17,7 @@
 package com.rs.game.content.skills.crafting;
 
 import com.rs.cache.loaders.ItemDefinitions;
+import com.rs.game.content.leagues.LeaguesTask;
 import com.rs.game.content.world.unorganized_dialogue.GemCuttingD;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
@@ -176,5 +177,9 @@ public class GemCutting extends PlayerAction {
 	@Override
 	public void stop(final Player player) {
 		setActionDelay(player, 3);
+	}
+
+	public Gem getGem() {
+		return gem;
 	}
 }

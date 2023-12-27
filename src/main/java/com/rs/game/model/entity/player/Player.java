@@ -1536,12 +1536,6 @@ public class Player extends Entity {
 		variousCounter.put(string, variousCounter.getOrDefault(string, 0) + count);
 	}
 
-	public int getCount(String string) {
-		if (variousCounter == null)
-			variousCounter = new ConcurrentHashMap<>();
-		return variousCounter.getOrDefault(string, 0);
-	}
-
 	public int getNumberKilled(String npcName) {
 		if (npcKills == null)
 			npcKills = new ConcurrentHashMap<>();

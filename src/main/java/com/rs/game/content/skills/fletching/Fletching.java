@@ -354,4 +354,8 @@ public class Fletching extends PlayerAction {
 		}
 		return fletch != null && fletch.getSelected() == selected ? fletch : null;
 	}
+
+	public Fletch getFletch() {
+		return fletch;
+	}
 }

@@ -21,6 +21,7 @@ import com.rs.game.content.Effect;
 import com.rs.game.content.Potions;
 import com.rs.game.content.achievements.AchievementDef;
 import com.rs.game.content.achievements.SetReward;
+import com.rs.game.content.leagues.LeaguesTask;
 import com.rs.game.content.skills.woodcutting.TreeType;
 import com.rs.game.content.skills.woodcutting.Woodcutting;
 import com.rs.game.model.entity.player.Player;
@@ -218,6 +219,8 @@ public class FarmPatch {
 			player.getSkills().addXp(Constants.FARMING, produce.plantingExperience);
 			player.setNextAnimation(SEED_DIBBING_ANIMATION);
 			player.getInventory().deleteItem(produce.seedId, seedCount);
+			if(produce.type == PatchType.ALLOTMENT && !player.getLeaguesManager().getTask(LeaguesTask.PLANT_ALLOTMENT))
+				player.getLeaguesManager().completeTask(LeaguesTask.PLANT_ALLOTMENT);
 			seed = produce;
 			updateVars(player);
 			return;

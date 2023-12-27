@@ -29,6 +29,7 @@ import com.rs.game.content.ItemConstants;
 import com.rs.game.content.combat.CombatDefinitions.Spellbook;
 import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.content.items.Spade;
+import com.rs.game.content.leagues.LeaguesTask;
 import com.rs.game.content.minigames.creations.StealingCreationLobbyController;
 import com.rs.game.content.minigames.domtower.DTPreview;
 import com.rs.game.content.minigames.ectofuntus.Ectofuntus;
@@ -252,6 +253,7 @@ public final class ObjectHandler {
 			} else if (id == 65371) { // Chaos altar (armored zombie)
 				final int maxPrayer1 = player.getSkills().getLevelForXp(Constants.PRAYER) * 10;
 				if (player.getPrayer().getPoints() < maxPrayer1) {
+					double restored = maxPrayer1 - player.getPrayer().getPoints();
 					player.lock(5);
 					player.sendMessage("You pray to the gods...", true);
 					player.setNextAnimation(new Animation(645));
@@ -260,6 +262,11 @@ public final class ObjectHandler {
 						public void run() {
 							player.getPrayer().restorePrayer(maxPrayer1);
 							player.sendMessage("...and recharged your prayer.", true);
+							if(restored >= 50 && !player.getLeaguesManager().getTask(LeaguesTask.RESTORE_50_PRAYER_POINTS))
+								player.getLeaguesManager().completeTask(LeaguesTask.RESTORE_50_PRAYER_POINTS);
+							if(restored > 750 && !player.getLeaguesManager().getTask(LeaguesTask.RESTORE_750_PRAYER_POINTS))
+								player.getLeaguesManager().completeTask(LeaguesTask.RESTORE_750_PRAYER_POINTS);
+
 						}
 					}, 2);
 				} else
@@ -281,7 +288,6 @@ public final class ObjectHandler {
 				player.useStairs(-1, Tile.of(3106, 3160, 1), 0, 1);
 			else if (id == 12327) { // jadinko lair out
 				player.tele(Tile.of(2948, 2955, 0));
-				return;
 			} else if (id == 4495) { // Slayer tower stairs up
 				player.tele(Tile.of(3417, 3541, 2));
 				return;
@@ -1010,6 +1016,7 @@ public final class ObjectHandler {
 			else if (id == 61336) {
 				final int maxPrayer2 = player.getSkills().getLevelForXp(Constants.PRAYER) * 10;
 				if (player.getPrayer().getPoints() < maxPrayer2) {
+					double restored =  maxPrayer2 - player.getPrayer().getPoints();
 					player.lock(5);
 					player.sendMessage("You pray to the gods...", true);
 					player.setNextAnimation(new Animation(645));
@@ -1018,6 +1025,10 @@ public final class ObjectHandler {
 						public void run() {
 							player.getPrayer().restorePrayer(maxPrayer2);
 							player.sendMessage("...and recharged your prayer.", true);
+							if(restored >= 50 && !player.getLeaguesManager().getTask(LeaguesTask.RESTORE_50_PRAYER_POINTS))
+								player.getLeaguesManager().completeTask(LeaguesTask.RESTORE_50_PRAYER_POINTS);
+							if(restored > 750 && !player.getLeaguesManager().getTask(LeaguesTask.RESTORE_750_PRAYER_POINTS))
+								player.getLeaguesManager().completeTask(LeaguesTask.RESTORE_750_PRAYER_POINTS);
 						}
 					}, 2);
 				} else
@@ -1296,6 +1307,7 @@ public final class ObjectHandler {
 						if (objectDef.containsOption(0, "Pray") || objectDef.containsOption(0, "Pray-at") || objectDef.containsOption(0, "Recharge")) {
 							final int maxPrayer3 = player.getSkills().getLevelForXp(Constants.PRAYER) * 10;
 							if (player.getPrayer().getPoints() < maxPrayer3) {
+								double restored = maxPrayer3 - player.getPrayer().getPoints();
 								player.lock(5);
 								player.sendMessage("You pray to the gods...", true);
 								player.setNextAnimation(new Animation(645));
@@ -1304,6 +1316,10 @@ public final class ObjectHandler {
 									public void run() {
 										player.getPrayer().restorePrayer(maxPrayer3);
 										player.sendMessage("...and recharged your prayer.", true);
+										if(restored >= 50 && !player.getLeaguesManager().getTask(LeaguesTask.RESTORE_50_PRAYER_POINTS))
+											player.getLeaguesManager().completeTask(LeaguesTask.RESTORE_50_PRAYER_POINTS);
+										if(restored > 750 && !player.getLeaguesManager().getTask(LeaguesTask.RESTORE_750_PRAYER_POINTS))
+											player.getLeaguesManager().completeTask(LeaguesTask.RESTORE_750_PRAYER_POINTS);
 									}
 								}, 2);
 							} else

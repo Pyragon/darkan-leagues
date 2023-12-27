@@ -16,6 +16,7 @@
 //
 package com.rs.game.content.skills.herblore;
 
+import com.rs.game.content.leagues.LeaguesTask;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
@@ -147,6 +148,9 @@ public class HerbCleaning {
 				player.getSkills().addXp(Constants.HERBLORE, herb.getExperience());
 				player.sendMessage("You clean the herb.", true);
 				player.incrementCount(item.getName() + " cleaned");
+				if(herb == Herbs.GUAM && !player.getLeaguesManager().getTask(LeaguesTask.CLEAN_GUAM))
+					player.getLeaguesManager().completeTask(LeaguesTask.CLEAN_GUAM);
+
 			}
 
 		});

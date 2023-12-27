@@ -24,6 +24,7 @@ import com.rs.engine.quest.Quest;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.content.achievements.AchievementSystemDialogue;
 import com.rs.game.content.achievements.SetReward;
+import com.rs.game.content.leagues.LeaguesTask;
 import com.rs.game.content.quests.RuneMysteries;
 import com.rs.game.content.quests.dragonslayer.DragonSlayer;
 import com.rs.game.model.entity.player.Player;
@@ -202,6 +203,8 @@ public class Lumbridge {
 				e.getPlayer().getInventory().deleteItem(1931, 1);
 				e.getPlayer().getInventory().addItem(1933, 1);
 				updateWheat(e.getPlayer());
+				if(!e.getPlayer().getLeaguesManager().getTask(LeaguesTask.MAKE_FLOUR))
+					e.getPlayer().getLeaguesManager().completeTask(LeaguesTask.MAKE_FLOUR);
 			}
 		} else
 			e.getPlayer().sendMessage("You need an empty pot to gather the flour.");
